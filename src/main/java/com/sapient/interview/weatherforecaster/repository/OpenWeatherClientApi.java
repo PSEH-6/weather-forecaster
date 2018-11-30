@@ -12,14 +12,23 @@ import java.io.IOException;
 @Component
 public class OpenWeatherClientApi implements OpenWeatherMapClientApi {
 
+
     @Value("${weather-api.url}")
     private String url;
 
     public OpenWeatherForecastResource getDataFromOpenWeatherMap(String city) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<OpenWeatherForecastResource> response
-                = restTemplate.getForEntity(url, OpenWeatherForecastResource.class, city);
-        return response.getBody();
+        ResponseEntity<String> response
+                = restTemplate.getForEntity(url, String.class, city);
+        ObjectMapper mapper = new ObjectMapper();
+            OpenWeatherForecastResource res = null;
+        try {
+            res = mapper.readValue(response.getBody(), OpenWeatherForecastResource.class);
+        } catch (IOException e) {
+
+            throw new RuntimeException(e.getMessage());
+        }
+        return res;
 
     }
 }

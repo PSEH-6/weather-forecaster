@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.sapient.interview.weatherforecaster.service.CustomDateDeserializer;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 public class OpenWeatherForecast {
     private OpenWeatherMain main;
 
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonDeserialize(using = CustomDateDeserializer.class)
     @JsonProperty("dt_txt")
     private LocalDateTime dateTime;
 
